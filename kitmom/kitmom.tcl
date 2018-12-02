@@ -83,7 +83,7 @@ proc ::kitmom::init {} {
             }
         }
         # Get a subdirectory name within temporary location that does not exist yet
-        for {set name [pid]} {[file exists [set result [file join $base [format TCL%08x $name]]]]} {set name [expr $name+1]} {
+        for {set name [pid]} {[file exists [set result [file join $base [format TCL%08x $name]]]]} {set name [expr {$name + 1}]} {
         }
         # Create that directory and remember the location
         file mkdir $result
