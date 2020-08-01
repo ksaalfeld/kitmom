@@ -44,12 +44,16 @@ CHAR* Memory_Allocate(DWORD size)
     handle = GetProcessHeap();
     if (NULL != handle)
     {
-        ptr = (MEMORY_AREA_T*)HeapAlloc(handle, HEAP_ZERO_MEMORY, size + sizeof(*ptr));
-        if (NULL != ptr)
+        /* Dont want any overflow */
+        if (size <= ((DWORD)-1) - sizeof(*ptr))
         {
-            ptr->handle = handle;
-            ptr->size = size;
-            result = ((CHAR*)ptr) + sizeof(*ptr);
+            ptr = (MEMORY_AREA_T*)HeapAlloc(handle, HEAP_ZERO_MEMORY, size + sizeof(*ptr));
+            if (NULL != ptr)
+            {
+                ptr->handle = handle;
+                ptr->size = size;
+                result = ((CHAR*)ptr) + sizeof(*ptr);
+            }
         }
     }
     

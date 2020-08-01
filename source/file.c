@@ -21,16 +21,18 @@ VOID File_DeleteAfterReboot(const CHAR* name)
 VOID File_DeleteSingleFile(const CHAR* name)
 {
     DWORD attr;
+    DWORD mask;
     
     if (NULL != name)
     {
         attr = GetFileAttributes(name);
         if ((INVALID_FILE_ATTRIBUTES != attr) && (0 == (attr & FILE_ATTRIBUTE_DIRECTORY)))
         {
+            mask = FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_HIDDEN;
             /* Remove read-only attribute, otherwise DeleteFile() will fail */
-            if (0 != (attr & FILE_ATTRIBUTE_READONLY))
+            if (0 != (attr & mask))
             {
-                SetFileAttributes(name, attr & (~(DWORD)FILE_ATTRIBUTE_READONLY));
+                SetFileAttributes(name, attr & (DWORD)~mask);
             }
             /* Delete it now and if that fails delete it later */
             if (FALSE == DeleteFile(name))
