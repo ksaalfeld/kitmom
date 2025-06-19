@@ -21,7 +21,7 @@ It keeps your room clean and tidy.
 
 # Usage
 
-Simply put kimom library in your vfs when creating the starpack and load it:
+Put kitmom package in your vfs when creating the starpack and load it:
 
     package require kitmom
 
